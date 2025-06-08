@@ -1,0 +1,63 @@
+#!/usr/bin/env python
+"""
+Brief description of what this script does.
+
+Dependencies: list any required packages here
+Example: requests, click, pyyaml
+"""
+
+import argparse
+import os
+import sys
+from pathlib import Path
+
+# Path to the script itself
+SCRIPT_PATH = os.path.abspath(__file__)
+SCRIPT_DIR = os.path.dirname(SCRIPT_PATH)
+
+def debug(message, debug_enabled=False):
+    """Print debug message if debug is enabled."""
+    if debug_enabled:
+        print(f"DEBUG: {message}", file=sys.stderr)
+
+def verbose(message, verbose_enabled=False):
+    """Print verbose message if verbose is enabled."""
+    if verbose_enabled:
+        print(message, file=sys.stderr)
+
+def main():
+    """Main function."""
+    parser = argparse.ArgumentParser(
+        description="Brief description of what this script does"
+    )
+    
+    parser.add_argument(
+        "-v", "--verbose",
+        action="store_true",
+        help="Enable verbose output"
+    )
+    
+    parser.add_argument(
+        "-d", "--debug",
+        action="store_true", 
+        help="Enable debug output"
+    )
+    
+    parser.add_argument(
+        "--version",
+        action="version",
+        version="%(prog)s 1.0.0"
+    )
+    
+    args = parser.parse_args()
+    
+    debug("Starting script", args.debug)
+    verbose("Running with verbose output enabled", args.verbose)
+    
+    # Your script logic here
+    print("Hello, World!")
+    
+    debug("Finished script", args.debug)
+
+if __name__ == "__main__":
+    main()

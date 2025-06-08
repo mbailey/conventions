@@ -1,0 +1,91 @@
+#!/usr/bin/env bash
+set -o nounset -o pipefail -o errexit
+
+# Script name and description
+SCRIPT_NAME="$(basename "$0")"
+SCRIPT_DESCRIPTION="Brief description of what this script does"
+
+# Dependencies: list any required commands here
+# Example: jq, curl, aws
+
+# Get absolute path to script, even when called via symlink
+command -v realpath &> /dev/null || {
+    echo "Error: 'realpath' is required but not found. Please install 'coreutils' (e.g. 'brew install coreutils' on macOS)." >&2
+    exit 1
+}
+SCRIPT_PATH="$(realpath "${BASH_SOURCE[0]}")"
+SCRIPT_DIR="$(dirname "$SCRIPT_PATH")"
+
+# Default values
+VERBOSE=false
+DEBUG=false
+
+# Usage function
+usage() {
+    cat << EOF
+Usage: $SCRIPT_NAME [OPTIONS] [ARGUMENTS]
+
+$SCRIPT_DESCRIPTION
+
+OPTIONS:
+    -h, --help      Show this help message
+    -v, --verbose   Enable verbose output
+    -d, --debug     Enable debug output
+
+EXAMPLES:
+    $SCRIPT_NAME --help
+    $SCRIPT_NAME --verbose
+
+EOF
+}
+
+# Parse command line arguments
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        -h|--help)
+            usage
+            exit 0
+            ;;
+        -v|--verbose)
+            VERBOSE=true
+            shift
+            ;;
+        -d|--debug)
+            DEBUG=true
+            shift
+            ;;
+        *)
+            echo "Unknown option: $1" >&2
+            usage >&2
+            exit 1
+            ;;
+    esac
+done
+
+# Debug function
+debug() {
+    if [[ "$DEBUG" == "true" ]]; then
+        echo "DEBUG: $*" >&2
+    fi
+}
+
+# Verbose function
+verbose() {
+    if [[ "$VERBOSE" == "true" ]]; then
+        echo "$*" >&2
+    fi
+}
+
+# Main script logic
+main() {
+    debug "Starting $SCRIPT_NAME"
+    verbose "Running with verbose output enabled"
+    
+    # Your script logic here
+    echo "Hello, World!"
+    
+    debug "Finished $SCRIPT_NAME"
+}
+
+# Run main function
+main "$@"
