@@ -16,7 +16,7 @@ columnise() {
 
   # Check if no arguments are provided
   if [ $# -eq 0 ]; then
-    if ! [[-t 1]]; then
+    if ! [[ -t 1 ]]; then
       cat
     else
       column -t -s $'\t'
