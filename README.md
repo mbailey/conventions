@@ -27,22 +27,25 @@ These are my personal preferences that work for me. They may not work for you. U
 # Clone my conventions
 git clone https://github.com/mbailey/conventions ~/conventions
 
-# Symlink into your project
+# Symlink the conventions into your project
 ln -s ~/conventions/CONVENTIONS.md your-project/CONVENTIONS.md
+
+# Set up AI assistant integration
+# For Claude:
+ln -s ~/conventions/ai-entrypoints/CLAUDE.md your-project/CLAUDE.md
 
 # Or just browse and cherry-pick what you like
 ```
 
 ### For AI Assistants
 
-This is what I add to my AI configuration (e.g., `.claude/CLAUDE.md`):
+The `ai-entrypoints/` directory contains ready-to-use configuration files for different AI tools. These files instruct the AI to read and follow your conventions. Just symlink or copy the appropriate file:
 
-```markdown
-- ALWAYS read CONVENTIONS.md at the start of any session
-- Load specific convention modules based on the work context
-```
+- **Claude**: `CLAUDE.md` (project root)
+- **Cursor**: Coming soon
+- **GitHub Copilot**: Coming soon
 
-The AI assistant then knows how I like things done.
+The AI assistant will then automatically load the right conventions for whatever you're working on.
 
 ## What's Included
 
