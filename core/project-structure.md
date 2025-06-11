@@ -8,7 +8,7 @@
 ### Modules
 
 - A module is a project structure that may contain multiple packages.
-- Modules keep each package in a dir, in repo_root or a subdir (e.g. `modules/`).
+- Modules keep each package in a dir (e.g. `my_package`) located in repo_root or a subdir (e.g. `packages/my_package`).
 
 ### Packages
 
@@ -41,6 +41,7 @@ standalone project.
   - completions/
     - bash/
     - zsh/
+- prompts/ # AI prompts and templates (organize as needed)
 - test/ # prefer bats tests to test CLI tools
 - vendor/
 
@@ -54,6 +55,29 @@ The should only be included where relevant.
 - **bin/build**: If there is a need to build (e.g. golang).
 - **bin/install**: If it needs to be installed on local device.
 - **bin/deploy**: Where there is a need to deploy to remote environments.
+
+## Prompts Organization
+
+### Package-Level Prompts
+
+- Store source prompts in `prompts/` directory within each package
+- Organize subdirectories as makes sense for your use case
+- Use symlinks from config directories to maintain package cohesion
+- Example: `config/dot-claude/commands/commit.md -> ../../../prompts/commit.md`
+
+### Central Prompts Collection
+
+- Use `packages/prompts/` as a central catalog via symlinks
+- Structure: `packages/prompts/PACKAGE/ -> ../PACKAGE/prompts/`
+- Provides discoverability while maintaining package independence
+- Enables standalone distribution of prompt collections
+
+### Benefits
+
+- **Co-location**: Prompts live with related tools and documentation
+- **Reusability**: Same prompts accessible from multiple contexts
+- **Version Control**: Source files properly tracked without duplication
+- **Distribution**: Packages remain self-contained for independent sharing
 
 ## External Repositories
 
