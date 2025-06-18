@@ -52,11 +52,12 @@ Load: CONVENTIONS.md + core/project-structure.md
 
 ## Integration with Other Projects
 
-This conventions package can be integrated into any project:
+This conventions package should be cloned into your project at `.conventions/`:
 
-1. **As a submodule**: `git submodule add <repo> conventions`
-2. **As external repo**: Add to `external/repos.txt` for metool sync
-3. **As a copy**: For projects needing heavy customization
+1. **Clone into project**: `git clone <repo> .conventions`
+2. **As a submodule**: `git submodule add <repo> .conventions`
+3. **As external repo**: Add to `external/repos.txt` for metool sync
+4. **As a copy**: For projects needing heavy customization
 
 See [Override System](overrides/README.md) for detailed integration instructions.
 

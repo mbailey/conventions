@@ -1,36 +1,96 @@
 # AI Entrypoints
 
-This directory contains entrypoint files for various AI coding assistants. These files instruct AI tools to read and follow the conventions defined in this repository.
+Minimal configuration files that instruct AI coding assistants to read your project conventions.
 
-## What Are These Files?
+## Setup
 
-Each file is designed to be the first thing a specific AI assistant reads when working on your project. They all serve the same purpose: pointing the AI to your `CONVENTIONS.md` file.
+This conventions repository should be cloned into your project at `.conventions/`:
 
-## How to Use
+```bash
+cd your-project
+git clone https://github.com/mbailey/conventions .conventions
+```
 
-1. **Symlink** the appropriate file into your project:
-   ```bash
-   ln -s ~/conventions/ai-entrypoints/CLAUDE.md .claude/CLAUDE.md
-   ```
+Then add the conventions to your AI tool configuration:
 
-2. **Copy and customize** for project-specific needs:
-   ```bash
-   cp ~/conventions/ai-entrypoints/CLAUDE.md .claude/CLAUDE.md
-   # Then add project-specific instructions
-   ```
+### Option 1: Append to Existing Config (Recommended)
 
-3. **Include the contents** in your existing AI configuration files
+If you already have project-specific AI instructions:
 
-## Available Entrypoints
+```bash
+# Append conventions to your existing CLAUDE.md
+echo -e "\n" >> CLAUDE.md  # Add newline separator
+cat .conventions/ai-entrypoints/claude/CLAUDE.md >> CLAUDE.md
 
-- `CLAUDE.md` - For Claude (Anthropic)
-- More coming: cursor-rules.md, copilot.md, etc.
+# For other tools (coming soon)
+cat .conventions/ai-entrypoints/cursor/cursor-rules.md >> .cursorrules
+```
 
-## The Pattern
+### Option 2: Symlink (For New Projects)
 
-All entrypoint files follow the same basic pattern:
-1. Instruct the AI to read `CONVENTIONS.md`
-2. Explain the context-aware loading system
-3. Remind about checking for overrides
+If you don't have existing AI configuration:
 
-This ensures consistent behavior across different AI tools while respecting your personal conventions.
+```bash
+# Symlink for Claude
+ln -s .conventions/ai-entrypoints/claude/CLAUDE.md CLAUDE.md
+
+# For other tools (coming soon)
+ln -s .conventions/ai-entrypoints/cursor/cursor-rules.md .cursorrules
+```
+
+## Directory Structure
+
+```
+ai-entrypoints/
+├── claude/
+│   ├── CLAUDE.md         # Main Claude configuration
+│   └── CLAUDE-voice.md   # Voice-specific Claude config
+├── cursor/               # Coming soon
+└── copilot/              # Coming soon
+```
+
+## Design Philosophy
+
+These entrypoint files are intentionally minimal (just 3 lines). They simply:
+1. Point the AI to `.conventions/CONVENTIONS.md`
+2. Mention context-aware loading to reduce token usage
+
+All actual convention content lives in the main conventions files, not in these entrypoints. This keeps token usage low and maintains a single source of truth.
+
+## Integration Examples
+
+### Example: Existing CLAUDE.md
+
+If your project already has:
+```markdown
+# Project-Specific Instructions
+
+- Always use async/await instead of promises
+- Follow our custom error handling pattern
+- Use our internal API client library
+```
+
+After appending conventions:
+```markdown
+# Project-Specific Instructions
+
+- Always use async/await instead of promises
+- Follow our custom error handling pattern
+- Use our internal API client library
+
+# Project Conventions
+
+Read `.conventions/CONVENTIONS.md` for engineering standards and navigation instructions.
+
+This project uses context-aware convention loading to minimize token usage.
+```
+
+### Example: New Project
+
+For a new project without existing AI configuration:
+```bash
+# Just symlink the minimal entrypoint
+ln -s .conventions/ai-entrypoints/claude/CLAUDE.md CLAUDE.md
+```
+
+The AI will automatically read your conventions while keeping token usage minimal.

@@ -21,31 +21,35 @@ These are my personal preferences that work for me. They may not work for you. U
 
 ## Quick Start
 
-### Try It Out
+### Clone into Your Project
 
 ```bash
-# Clone my conventions
-git clone https://github.com/mbailey/conventions ~/conventions
+# Navigate to your project
+cd your-project
 
-# Symlink the conventions into your project
-ln -s ~/conventions/CONVENTIONS.md your-project/CONVENTIONS.md
+# Clone conventions as a subdirectory
+git clone https://github.com/mbailey/conventions .conventions
 
-# Set up AI assistant integration
-# For Claude:
-ln -s ~/conventions/ai-entrypoints/CLAUDE.md your-project/CLAUDE.md
+# Add conventions to your AI assistant config
+# Option 1: Append to existing CLAUDE.md (recommended)
+echo -e "\n" >> CLAUDE.md
+cat .conventions/ai-entrypoints/claude/CLAUDE.md >> CLAUDE.md
 
-# Or just browse and cherry-pick what you like
+# Option 2: Symlink if no existing config
+ln -s .conventions/ai-entrypoints/claude/CLAUDE.md CLAUDE.md
+
+# Or browse .conventions/ and cherry-pick what you like
 ```
 
 ### For AI Assistants
 
-The `ai-entrypoints/` directory contains ready-to-use configuration files for different AI tools. These files instruct the AI to read and follow your conventions. Just symlink or copy the appropriate file:
+The `ai-entrypoints/` directory contains minimal configuration snippets for different AI tools. These 3-line files simply point the AI to read `.conventions/CONVENTIONS.md` for all convention details:
 
-- **Claude**: `CLAUDE.md` (project root)
+- **Claude**: Append `.conventions/ai-entrypoints/claude/CLAUDE.md` to your project's CLAUDE.md
 - **Cursor**: Coming soon
 - **GitHub Copilot**: Coming soon
 
-The AI assistant will then automatically load the right conventions for whatever you're working on.
+The AI assistant will read the conventions and use context-aware loading to minimize token usage. Since the entrypoint is only 3 lines, it integrates cleanly with your existing project-specific AI instructions.
 
 ## What's Included
 
@@ -71,7 +75,7 @@ The AI assistant will then automatically load the right conventions for whatever
 This is a pattern I use to customize conventions per-project without losing the base:
 
 ```
-conventions/              # Base conventions (this repo)
+.conventions/             # Base conventions (this repo, cloned into project)
 conventions-project/      # Project-specific overrides (committed)
 conventions-local/        # My local tweaks (gitignored)
 ```
@@ -92,12 +96,16 @@ cat > conventions-project/languages/python.md << 'EOF'
 EOF
 ```
 
-## How I Use These
+## How to Use These
 
-### 1. Clone and Symlink (What I Do)
+### 1. As a Project Subdirectory (Recommended)
 ```bash
-git clone https://github.com/mbailey/conventions ~/conventions
-ln -s ~/conventions/CONVENTIONS.md .
+cd your-project
+git clone https://github.com/mbailey/conventions .conventions
+
+# Add to existing CLAUDE.md
+echo -e "\n" >> CLAUDE.md
+cat .conventions/ai-entrypoints/claude/CLAUDE.md >> CLAUDE.md
 ```
 
 ### 2. With External Repository Management
@@ -110,7 +118,7 @@ mt sync
 ### 3. Just Copy What You Need
 ```bash
 # Cherry-pick specific files
-cp ~/conventions/templates/scripts/bash-template my-script
+cp .conventions/templates/scripts/bash-template my-script
 ```
 
 ### 4. Fork and Make Your Own
@@ -137,7 +145,7 @@ Load: core/principles.md + core/documentation.md + languages/markdown.md
 
 ```bash
 # I start new bash scripts from my template
-cp conventions/templates/scripts/bash-template my-script
+cp .conventions/templates/scripts/bash-template my-script
 chmod +x my-script
 # Then customize from there
 ```
